@@ -4,14 +4,14 @@ import time
 from selenium.webdriver.common.by import By
 
 from generators.generator import generated_person
-from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators
+from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators
 from pages.base_page import BasePage
 
 
 class TextBoxPage(BasePage):
     locators = TextBoxPageLocators()
 
-    def fill_all_fields(self,):
+    def fill_all_fields(self, ):
         person_info = next(generated_person())
 
         full_name = person_info.full_name
@@ -40,6 +40,7 @@ class TextBoxPage(BasePage):
 
         return full_name, email, current_address, permanent_address
 
+
 class CheckBoxPage(BasePage):
     locators = CheckBoxPageLocators()
 
@@ -64,7 +65,7 @@ class CheckBoxPage(BasePage):
         for box in checked_list:
             title_item = box.find_element(By.XPATH, ".//ancestor::span[@class='rct-text']")
             data.append(title_item.text)
-        return str(data).replace(' ', '').replace('doc',  '').replace('.', '').lower()
+        return str(data).replace(' ', '').replace('doc', '').replace('.', '').lower()
 
     def get_output_result(self):
         result_list = self.elements_ere_present(self.locators.OUTPUT_RESULT)
@@ -72,3 +73,17 @@ class CheckBoxPage(BasePage):
         for item in result_list:
             data.append(item.text)
         return str(data).replace(' ', '').lower()
+
+
+class RadioButtonPage(BasePage):
+    locators = RadioButtonPageLocators()
+
+    def click_on_the_radio_button(self, choice):
+        choices = {'yes': self.locators.BTN_YES,
+                   'impressive': self.locators.BTN_IMPRESSIVE,
+                   'no': self.locators.BTN_NO}
+
+        self.element_is_visible(choices[choice]).click()
+
+    def get_output_result(self):
+        return self.element_is_present(self.locators.SELECTED_RESULT).text
