@@ -27,9 +27,6 @@ class TestElements:
             input_checkbox = check_box_page.get_checked_checkboxes()
             output_result = check_box_page.get_output_result()
 
-            print(input_checkbox)
-            print(output_result)
-
             assert input_checkbox == output_result, 'checkboxes have not been selected'
 
     class TestRadioButton:
@@ -53,8 +50,6 @@ class TestElements:
             web_table_page.open()
             new_person = web_table_page.add_new_person()
             table_result = web_table_page.new_person()
-            print(new_person)
-            print(table_result)
 
             assert new_person in table_result
 
@@ -66,3 +61,30 @@ class TestElements:
             table_result = web_table_page.check_search_person()
 
             assert key_word in table_result, 'THe person was not found in the table'
+
+        def test_web_table_update_person_info(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            lastname = web_table_page.add_new_person()[1]
+            web_table_page.search_some_person(lastname)
+            age = web_table_page.update_person_info()
+            row = web_table_page.check_search_person()
+
+            assert age in row, 'The person card has not been changed'
+
+        def test_web_table_delete_person(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            email = web_table_page.add_new_person()[3]
+            web_table_page.search_some_person(email)
+            web_table_page.delete_person()
+            text = web_table_page.check_deleted()
+
+            assert text == "No rows found", 'The person card has not been deleted'
+
+        def test_web_table_change_count_row(self, driver):
+            web_table_page = WebTablePage(driver, 'https://demoqa.com/webtables')
+            web_table_page.open()
+            count = web_table_page.change_row_count()
+
+            assert count == [5, 10, 20, 25, 50, 100], 'The number of rows in the table has not been changed incorrectly'
