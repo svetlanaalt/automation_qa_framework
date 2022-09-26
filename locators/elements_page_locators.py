@@ -51,3 +51,14 @@ class WebTablePageLocators:
     # delete
     DELETE_BUTTON = (By.CSS_SELECTOR, 'span[title="Delete"]')
 
+class ButtonsPageLocators:
+    DOUBLE_BTN = (By.CSS_SELECTOR, 'button[id="doubleClickBtn"]')
+    RIGHT_BTN = (By.CSS_SELECTOR, 'button[id="rightClickBtn"]')
+    DYNAMIC_BTN = (By.CSS_SELECTOR, 'div[class="mt-4"]:nth-child(3)')
+
+
+    MESSAGE_DOUBLE_CLICK = (By.CSS_SELECTOR, 'p[id="doubleClickMessage"]')
+    MESSAGE_RIGHT_CLICK = (By.CSS_SELECTOR, 'p[id="rightClickMessage"]')
+    MESSAGE_DYNAMIC_CLICK = (By.CSS_SELECTOR, 'p[id="dynamicClickMessage"]')
+
+

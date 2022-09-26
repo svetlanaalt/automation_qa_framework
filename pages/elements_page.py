@@ -2,10 +2,11 @@ import random
 import time
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 
 from generators.generator import generated_person
 from locators.elements_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonPageLocators, \
-    WebTablePageLocators
+    WebTablePageLocators, ButtonsPageLocators
 from pages.base_page import BasePage
 
 
@@ -159,5 +160,29 @@ class WebTablePage(BasePage):
         list_rows = self.elements_ere_present(self.locators.FULL_PEOPLE_LIST)
         return len(list_rows)
 
+class ButtonsPage(BasePage):
+    locators = ButtonsPageLocators()
+
+    def click_on_different_button(self, type_click):
+        if type_click == 'double':
+            self.action_double_click(self.element_is_visible(self.locators.DOUBLE_BTN))
+            return self.check_message_after_click(self.locators.MESSAGE_DOUBLE_CLICK)
+
+        if type_click == 'right':
+            self.action_right_click(self.element_is_visible(self.locators.RIGHT_BTN))
+            return self.check_message_after_click(self.locators.MESSAGE_RIGHT_CLICK)
+
+        if type_click == 'dynamic':
+            element = self.element_is_visible(self.locators.DYNAMIC_BTN)
+            element.find_element(By.XPATH, '//div[3]/button').click()
+            return self.check_message_after_click(self.locators.MESSAGE_DYNAMIC_CLICK)
+
+    def check_message_after_click(self, element):
+        return self.element_is_present(element).text
+
+
+    # def double_click_on_button(self):
+    # def dynamic_click_on_button(self):find_element(By.XPATH, './/ancestor::div[@class="rt-tr-group"]')
+    # def right_click_on_button(self):
 
 
